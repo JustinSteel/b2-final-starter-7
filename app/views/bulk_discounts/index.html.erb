@@ -1,0 +1,26 @@
+<h1>My Discounts</h1>
+
+
+<% if @merchant.bulk_discounts.empty? %>
+  <p>You have no discounts at this time.</p>
+<% else %>
+  <table class="table table-info table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Link</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Min Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @merchant.bulk_discounts.each do |discount| %>
+        <tr>
+          <td><%= link_to "Discount ##{discount.id}", merchant_bulk_discount_path(@merchant, discount) %></td>
+          <td><%= discount.percentage_discount %>%</td>
+          <td><%= discount.quantity_threshold %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
