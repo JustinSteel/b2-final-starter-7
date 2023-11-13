@@ -2,6 +2,12 @@ require "rails_helper"
 
 RSpec.describe "invoices show" do
   before :each do
+    Merchant.destroy_all
+    Item.destroy_all
+    BulkDiscount.destroy_all
+    Customer.destroy_all
+    Invoice.destroy_all
+    InvoiceItem.destroy_all
     @merchant1 = Merchant.create!(name: "Hair Care")
     @merchant2 = Merchant.create!(name: "Jewelry")
 
@@ -14,6 +20,9 @@ RSpec.describe "invoices show" do
 
     @item_5 = Item.create!(name: "Bracelet", description: "Wrist bling", unit_price: 200, merchant_id: @merchant2.id)
     @item_6 = Item.create!(name: "Necklace", description: "Neck bling", unit_price: 300, merchant_id: @merchant2.id)
+
+    @discount1 = @merchant1.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 10)
+    @discount2 = @merchant1.bulk_discounts.create!(percentage_discount: 30, quantity_threshold: 15)
 
     @customer_1 = Customer.create!(first_name: "Joey", last_name: "Smith")
     @customer_2 = Customer.create!(first_name: "Cecilia", last_name: "Jones")
@@ -100,4 +109,20 @@ RSpec.describe "invoices show" do
     end
   end
 
+  it "shows the total revenue for my merchant from this invoice" do
+    # 6: Merchant Invoice Show Page: Total Revenue and Discounted Revenue
+
+    # As a merchant
+    # When I visit my merchant invoice show page
+    # Then I see the total revenue for my merchant from this invoice (not including discounts)
+    # And I see the total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+
+    within("#total-revenue") do
+    expect(page).to have_content(@invoice_1.total_revenue)
+    end
+    within("#discounted-revenue") do
+    expect(page).to have_content(@invoice_1.discounted_revenue)
+    end
+  end
 end

@@ -13,4 +13,10 @@ class Invoice < ApplicationRecord
   def total_revenue
     invoice_items.sum("unit_price * quantity")
   end
+
+  def discounted_revenue
+    invoice_items
+    .joins(item: {merchant: :bulk_discounts})
+    .sum("invoice_items.unit_price * invoice_items.quantity * (1 - bulk_discounts.percentage_discount / 100.0)")
+  end
 end
