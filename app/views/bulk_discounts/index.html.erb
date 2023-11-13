@@ -10,17 +10,20 @@
         <th scope="col">Link</th>
         <th scope="col">Discount</th>
         <th scope="col">Min Quantity</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
       <% @merchant.bulk_discounts.each do |discount| %>
-        <tr>
+          <tr id="discount-<%= discount.id %>">
           <td><%= link_to "Discount ##{discount.id}", merchant_bulk_discount_path(@merchant, discount) %></td>
           <td><%= discount.percentage_discount %>%</td>
           <td><%= discount.quantity_threshold %></td>
+          <td><%= button_to "Delete Discount", { controller: "bulk_discounts", action: 'destroy', id: discount.id, merchant_id: @merchant.id }, method: :delete, data: { turbo: false }, testid: "delete_bulk_discount_#{discount.id}" %></li>
         </tr>
       <% end %>
     </tbody>
   </table>
+  <%= link_to "Create New Discount", new_merchant_bulk_discount_path(@merchant)%>
 <% end %>
 

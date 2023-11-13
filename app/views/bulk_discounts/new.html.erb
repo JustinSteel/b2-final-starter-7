@@ -1,0 +1,5 @@
+<%= render partial: "bulk_discount_partials/form",
+           locals: {bulk_discount: @bulk_discount,
+           method: :post, 
+           path: merchant_bulk_discounts_path(@merchant)},
+           button_text: "Create New Discount" %> 
