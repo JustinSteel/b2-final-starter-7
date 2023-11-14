@@ -74,14 +74,10 @@ describe "Admin Invoices Index Page" do
   end
 
   it "should display total revenue with and without discounts" do
-    # 8: Admin Invoice Show Page: Total Revenue and Discounted Revenue
-
-    # As an admin
-    # When I visit an admin invoice show page
-    # Then I see the total revenue from this invoice (not including discounts)
-    # And I see the total discounted revenue from this invoice which includes bulk discounts in the calculation
-    
-    expect(page).to have_content("Total Revenue: $30.00")
-    expect(page).to have_content("Total Discount: $24.00")
+    within("#total-revenue-#{@i1.id}") do
+      expect(page).to have_content("Total Revenue: $30.00")
+      expect(page).to have_content("Total Discount: $24.00")
+      expect(page).to_not have_content("Total Revenue: $12.00")
+    end
   end
 end
