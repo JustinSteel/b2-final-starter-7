@@ -70,7 +70,6 @@ RSpec.describe "merchant bulk discount edit page" do
       fill_in "Percentage Discount", with: 50
       click_button "Submit"
       expect(current_path).to eq(merchant_bulk_discount_path(@merchant1.id, @discount1.id))
-      
       expect(page).to have_content("50")
       expect(page).to_not have_content("20")
     

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_09_224329) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_14_202828) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_224329) do
     t.bigint "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "bulk_discount_id"
+    t.index ["bulk_discount_id"], name: "index_invoice_items_on_bulk_discount_id"
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
     t.index ["item_id"], name: "index_invoice_items_on_item_id"
   end
@@ -83,6 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_224329) do
   end
 
   add_foreign_key "bulk_discounts", "merchants"
+  add_foreign_key "invoice_items", "bulk_discounts"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_items", "items"
   add_foreign_key "items", "merchants"
