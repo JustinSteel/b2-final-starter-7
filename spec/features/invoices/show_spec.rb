@@ -52,6 +52,7 @@ RSpec.describe "invoices show" do
     @ii_10 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_5.id, quantity: 1, unit_price: 1, status: 1)
     @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
     @ii_1.update!(bulk_discount_id: @discount1.id)
+    
     @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
     @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_2.id)
     @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_3.id)
@@ -122,7 +123,7 @@ RSpec.describe "invoices show" do
       expect(page).to have_content(@invoice_1.total_revenue)
     end
     within("#discounted-revenue") do
-      expect(page).to have_content(@invoice_1.discounted_revenue)
+      expect(page).to have_content(@invoice_1.calculate_total_price)
     end
   end
 

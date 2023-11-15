@@ -64,17 +64,21 @@ RSpec.describe "merchant bulk discount index page" do
       
       expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant1))
       expect(page).to have_field('Percentage Discount', wait: 10)
-
-      
+      fill_in "Percentage Discount", with: 123
+      fill_in "Quantity Threshold", with: 456
+      click_button "Create Discount"
+      expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant1))
+      expect(page).to have_content("Discount cannot be greater than 100%")
 
       fill_in "Percentage Discount", with: 50
       fill_in "Quantity Threshold", with: 30
       click_button "Create Discount"
       expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
 
-      
-      expect(page).to have_content("50")
-      expect(page).to have_content("30")
+      within("#bulk-discounts") do
+        expect(page).to have_content("50%")
+        expect(page).to have_content("30")
+      end
     end
 
     it "Can delete a discount" do

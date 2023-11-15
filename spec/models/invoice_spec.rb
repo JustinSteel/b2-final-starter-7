@@ -19,15 +19,15 @@ RSpec.describe Invoice, type: :model do
     @discount1 = @merchant1.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 10)
     @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
     @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
-    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2)
+    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 10, status: 2)
     @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 1, unit_price: 10, status: 1)
     end
     it "total_revenue" do
-      expect(@invoice_1.total_revenue).to eq(100)
+      expect(@invoice_1.total_revenue).to eq(110)
     end
 
-    it "discounted_revenue" do
-      expect(@invoice_1.discounted_revenue).to eq(80)
+    it "calculate_total_price" do
+      expect(@invoice_1.calculate_total_price).to eq(90)
     end
   end
 end

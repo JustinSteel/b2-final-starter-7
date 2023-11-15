@@ -3,3 +3,7 @@
            method: :post, 
            path: merchant_bulk_discounts_path(@merchant)},
            button_text: "Create New Discount" %> 
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
