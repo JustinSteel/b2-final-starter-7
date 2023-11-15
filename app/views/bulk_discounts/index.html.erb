@@ -1,9 +1,7 @@
 <h1>My Discounts</h1>
 
 
-<% if @merchant.bulk_discounts.empty? %>
-  <p>You have no discounts at this time.</p>
-<% else %>
+
   <table class="table table-info table-striped">
     <thead>
       <tr>
@@ -25,5 +23,5 @@
     </tbody>
   </table>
   <%= link_to "Create New Discount", new_merchant_bulk_discount_path(@merchant)%>
-<% end %>
+
 
