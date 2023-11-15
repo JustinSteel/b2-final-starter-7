@@ -32,10 +32,12 @@ end
   end
 
   def update
+    @bulk_discount = BulkDiscount.find(params[:id])
+  
     if params[:bulk_discount][:percentage_discount].to_i > 100
       flash.notice = "Discount cannot be greater than 100%"
+      redirect_to edit_merchant_bulk_discount_path(@merchant.id, @bulk_discount.id)
     else 
-      @bulk_discount = BulkDiscount.find(params[:id])
       @bulk_discount.update(bulk_discount_params)
       redirect_to merchant_bulk_discount_path(@merchant.id, @bulk_discount.id)
     end

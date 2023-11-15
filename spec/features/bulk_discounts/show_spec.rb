@@ -48,11 +48,6 @@ RSpec.describe "merchant bulk discount show page" do
     end
 
     it "can see the bulk discount's quantity threshold and percentage discount" do
-      # 4: Merchant Bulk Discount Show
-
-      # As a merchant
-      # When I visit my bulk discount show page
-      # Then I see the bulk discount's quantity threshold and percentage discount
       expect(page).to have_content("Quantity Threshold: #{@discount1.quantity_threshold}")
       expect(page).to have_content("Percentage Discount: #{@discount1.percentage_discount}")
     end

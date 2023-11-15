@@ -52,7 +52,7 @@ RSpec.describe "invoices show" do
     @ii_10 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_5.id, quantity: 1, unit_price: 1, status: 1)
     @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
     @ii_1.update!(bulk_discount_id: @discount1.id)
-    
+
     @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
     @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_2.id)
     @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_3.id)
@@ -111,12 +111,6 @@ RSpec.describe "invoices show" do
   end
 
   it "shows the total revenue for my merchant from this invoice" do
-    # 6: Merchant Invoice Show Page: Total Revenue and Discounted Revenue
-
-    # As a merchant
-    # When I visit my merchant invoice show page
-    # Then I see the total revenue for my merchant from this invoice (not including discounts)
-    # And I see the total discounted revenue for my merchant from this invoice which includes bulk discounts in the calculation
     visit merchant_invoice_path(@merchant1, @invoice_1)
 
     within("#total-revenue") do
@@ -128,11 +122,6 @@ RSpec.describe "invoices show" do
   end
 
   it "shows a link to applied discounts" do
-    # 7: Merchant Invoice Show Page: Link to applied discounts
-
-    # As a merchant
-    # When I visit my merchant invoice show page
-    # Next to each invoice item I see a link to the show page for the bulk discount that was applied (if any)
     visit merchant_invoice_path(@merchant1, @invoice_1)
       within("#invoice-item-#{@ii_1.id}") do
         expect(page).to have_link('View Discount', href: merchant_bulk_discount_path(@merchant1, @ii_1.bulk_discount))

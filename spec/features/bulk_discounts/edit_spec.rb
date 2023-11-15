@@ -38,7 +38,7 @@ RSpec.describe "merchant bulk discount edit page" do
 
       @ii_1.update!(bulk_discount_id: @discount1.id)
       @ii_2.update!(bulk_discount_id: @discount1.id)
-      
+
       @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
       @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_3.id)
       @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_4.id)
@@ -49,17 +49,6 @@ RSpec.describe "merchant bulk discount edit page" do
     end
 
     it "can edit the bulk discount" do
-      # 5: Merchant Bulk Discount Edit
-
-      # As a merchant
-      # When I visit my bulk discount show page
-      # Then I see a link to edit the bulk discount
-      # When I click this link
-      # Then I am taken to a new page with a form to edit the discount
-      # And I see that the discounts current attributes are pre-poluated in the form
-      # When I change any/all of the information and click submit
-      # Then I am redirected to the bulk discount's show page
-      # And I see that the discount's attributes have been updated
       visit merchant_bulk_discount_path(@merchant1.id, @discount1.id)
 
       expect(page).to have_link("Edit Discount")
@@ -70,9 +59,15 @@ RSpec.describe "merchant bulk discount edit page" do
       expect(page).to have_field('Quantity Threshold', with: @discount1.quantity_threshold)
       expect(page).to have_button("Submit")
       
+      fill_in "Percentage Discount", with: 105
+      click_button "Submit"
+      expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant1.id, @discount1.id))
+      expect(page).to have_content("Discount cannot be greater than 100%")
+
       fill_in "Percentage Discount", with: 50
       click_button "Submit"
       expect(current_path).to eq(merchant_bulk_discount_path(@merchant1.id, @discount1.id))
+      
       expect(page).to have_content("50")
       expect(page).to_not have_content("20")
     

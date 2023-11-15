@@ -48,16 +48,6 @@ RSpec.describe "merchant bulk discount index page" do
     end
 
     it "Can create a new discount" do
-      # 2: Merchant Bulk Discount Create
-
-      # As a merchant
-      # When I visit my bulk discounts index
-      # Then I see a link to create a new discount
-      # When I click this link
-      # Then I am taken to a new page where I see a form to add a new bulk discount
-      # When I fill in the form with valid data
-      # Then I am redirected back to the bulk discount index
-      # And I see my new bulk discount listed
       expect(page).to have_link("Create New Discount")
 
       click_link "Create New Discount"
@@ -82,14 +72,6 @@ RSpec.describe "merchant bulk discount index page" do
     end
 
     it "Can delete a discount" do
-      # 3: Merchant Bulk Discount Delete
-
-      # As a merchant
-      # When I visit my bulk discounts index
-      # Then next to each bulk discount I see a button to delete it
-      # When I click this button
-      # Then I am redirected back to the bulk discounts index page
-      # And I no longer see the discount listed
       expect(page).to have_button("Delete Discount")
       
       within("#discount-#{@discount1.id}") do

@@ -132,16 +132,6 @@ RSpec.describe "merchant dashboard" do
   end
 
   it "shows a link to view all of my discounts" do
-    # 1: Merchant Bulk Discounts Index
-
-    # As a merchant
-    # When I visit my merchant dashboard
-    # Then I see a link to view all my discounts
-    # When I click this link
-    # Then I am taken to my bulk discounts index page
-    # Where I see all of my bulk discounts including their
-    # percentage discount and quantity thresholds
-    # And each bulk discount listed includes a link to its show page
     expect(page).to have_link("My Discounts")
     
     click_link "My Discounts"
