@@ -20,7 +20,7 @@ class BulkDiscountsController < ApplicationController
     else
       @bulk_discount = @merchant.bulk_discounts.new(bulk_discount_params)
     if @bulk_discount.save
-      redirect_to merchant_bulk_discounts_path(@merchant)
+      render :index
     else
       render :new
     end
