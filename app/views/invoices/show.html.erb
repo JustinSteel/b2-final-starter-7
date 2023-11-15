@@ -32,17 +32,15 @@
 
     <tbody>
       <% @invoice.invoice_items.each do |i| %>
-       <div id="invoice-item-<%= i.id %>"> 
-        <tr class="tr">
+          <tr class="tr">
+        <div id="invoice-item-<%= i.id %>">
           <td style="text-align:center">
-          <% if i.bulk_discount? %>
-            <%= link_to "View Discount", merchant_bulk_discount_path(@merchant, i.bulk_discount) %>
-          <% end %> 
+            <% discount = i.applicable_discount %>
+            <% if discount %>
+              <%= link_to "Discount", merchant_bulk_discount_path(i.item.merchant, discount) %>
+            <% end %>
           </div>
         <section id="the-status-<%= i.id %>">
-          <tr class="tr">
-            <td style="text-align:center">
-          </td>
             <td style="text-align:center"><%= i.item.name %></td>
             <td style="text-align:center"><%= i.quantity %></td>
             <td style="text-align:center">$<%= i.unit_price %></td>

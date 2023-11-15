@@ -21,7 +21,7 @@ RSpec.describe "invoices show" do
     @item_5 = Item.create!(name: "Bracelet", description: "Wrist bling", unit_price: 200, merchant_id: @merchant2.id)
     @item_6 = Item.create!(name: "Necklace", description: "Neck bling", unit_price: 300, merchant_id: @merchant2.id)
 
-    @discount1 = @merchant1.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 10)
+    @discount1 = @merchant1.bulk_discounts.create!(percentage_discount: 20, quantity_threshold: 9)
     @discount2 = @merchant1.bulk_discounts.create!(percentage_discount: 30, quantity_threshold: 15)
 
     @customer_1 = Customer.create!(first_name: "Joey", last_name: "Smith")
@@ -122,9 +122,22 @@ RSpec.describe "invoices show" do
   end
 
   it "shows a link to applied discounts" do
-    visit merchant_invoice_path(@merchant1, @invoice_1)
-      within("#invoice-item-#{@ii_1.id}") do
-        expect(page).to have_link('View Discount', href: merchant_bulk_discount_path(@merchant1, @ii_1.bulk_discount))
+    #     7: Merchant Invoice Show Page: Link to applied discounts
+
+    # As a merchant
+    # When I visit my merchant invoice show page
+    # Next to each invoice item I see a link to the show page for the bulk discount that was applied (if any)
+    visit merchant_invoice_path(@merchant1.id, @invoice_1.id)
+    save_and_open_page
+    @invoice_1.invoice_items.each do |invoice_item|
+      within("#invoice-item-#{invoice_item.id}") do
+        discount = invoice_item.applicable_discount
+        if discount
+          expect(page).to have_link('Discount', href: merchant_bulk_discount_path(@merchant1, discount))
+        else
+          expect(page).to_not have_link('Discount')
+        end
       end
+    end
   end
 end

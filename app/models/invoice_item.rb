@@ -7,7 +7,6 @@ class InvoiceItem < ApplicationRecord
 
   belongs_to :invoice
   belongs_to :item
-  belongs_to :bulk_discount, optional: true
 
   enum status: [:pending, :packaged, :shipped]
 
@@ -16,7 +15,11 @@ class InvoiceItem < ApplicationRecord
     Invoice.order(created_at: :asc).find(invoice_ids)
   end
 
+  def applicable_discount
+    item.merchant.bulk_discounts.where("quantity_threshold <= ?", quantity).order(percentage_discount: :desc).first
+  end
+
   def bulk_discount?
-    bulk_discount != nil
+    !bulk_discount_id.nil?
   end
 end
